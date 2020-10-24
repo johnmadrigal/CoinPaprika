@@ -1,18 +1,11 @@
 import React from 'react';
 import './App.css';
+import MainContainer from './containers/MainContainer';
 
 function App() {
   return (
     <div className="App">
-      <main>
-      <select>
-        <option value="Bitcoin">Bitcoin</option>
-      </select>
-      <select>
-        <option value="Bitcoin">Ethereum</option>
-      </select>
-      <h1>Test</h1>
-      </main>
+      <MainContainer />
     </div>
   );
 }
