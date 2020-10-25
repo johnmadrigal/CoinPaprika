@@ -3,10 +3,11 @@ import Select from '../components/Select'
 
 //most likely want to either cash these request or grab them on select
 const MainContainer = () => {
-  const [price, setPrice] = useState(null);
   const [left, setLeft] = useState('btc-bitcoin');
   const [right, setRight] = useState('eth-ethereum');
   const [coins, setCoins] = useState([]);
+  const [price, setPrice] = useState(null);
+  const [exchange, setExchange] = useState('');
 
   useEffect( () => {
     const fetch1 = fetch('https://api.coinpaprika.com/v1/coins');
@@ -19,7 +20,8 @@ const MainContainer = () => {
         const conversion = newLeft.quotes.USD.price / newRight.quotes.USD.price;
         console.log('conversion', conversion)
         setCoins(newCoins.filter( coin => coin.rank > 0 && coin.rank <= 20));
-        setPrice(conversion);
+        setExchange(`1 ${newLeft.name} = ${conversion} ${newRight.name}`)
+        // setPrice(conversion);
       } catch (e) {
         console.log('error after mount', e)
       }
@@ -36,6 +38,7 @@ const MainContainer = () => {
         const coins = await Promise.all([queryLeft, queryRight]);
         const [newLeft, newRight] = await Promise.all(coins.map( coin => coin.json()));
         const conversion = newLeft.quotes.USD.price / newRight.quotes.USD.price;
+        setExchange(`1 ${newLeft.name} = ${conversion} ${newRight.name}`)
         setPrice(conversion);
       } catch (e) {
         console.log('error fetching new query', e);
@@ -52,9 +55,10 @@ const MainContainer = () => {
   return (
   <main>
     <h1>Crypto Exchange Rates</h1>
-    <Select id="left" options={coins} name="name" value="id" selected={left} onSelect={onSelect} />
-    <Select id="right" options={coins} name="name" value="id" selected={right} onSelect={onSelect} />
-    <h1>1 {left} = {price}{right}</h1>
+    <Select id="left" options={coins} name="name" value="id" selected={left} onSelect={onSelect} disable={right}/>
+    <Select id="right" options={coins} name="name" value="id" selected={right} onSelect={onSelect} disable={left}/>
+    {/* <h1>1 {left} = {price}{right}</h1> */}
+    <h1>{exchange}</h1>
   </main>  );
 }
 
