@@ -14,43 +14,51 @@ const MainContainer = () => {
   // const url = `https://api.coinpaprika.com/v1/tickers/${left}?quotes=${right}`
   const url = `https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=ETH`
   //https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=BTC
+
   useEffect( () => {
     setLoading(!loading)
-    fetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=ETH')
-      .then( res => res.json())
-      .then( data => setData(data))
-      .catch( err  => console.log('err', err))
+    const fetch1 = fetch('https://api.coinpaprika.com/v1/coins')
+    const fetch2 = fetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=ETH')
+    const fetching = async(promises) => {
+      Promise.all(promises)
+      .then( async (responses) => {
+        console.log('responses', responses)
+        const coins = responses[0].json()
+        const quote = responses[1].json()
+        Promise.all([coins, quote])
+          .then( bodies => {
+            const topFive = bodies[0].slice(0,6)
+            setCoins(topFive)
+            console.log(bodies[1])
+          })
+      })
+      .catch( err => console.log('error in promiseall', err))
+    }
+    fetching([fetch1, fetch2])
+    
+    // fetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=ETH')
+    //   .then( res => res.json())
+    //   .then( data => setData(data))
+    //   .catch( err  => console.log('err', err))
   }, [])
 
-  const checkNested = (obj, level,  ...rest)  => {
-    if (obj === undefined) return false
-    if (rest.length == 0 && obj.hasOwnProperty(level)) return true
-    return checkNested(obj[level], ...rest)
-  }
-
-  const getNested = (obj, ...args) => {
-    return args.reduce((obj, level) => obj && obj[level], obj)
-  }
-
   useEffect( () => {
-    console.log('trigger data useeffect')
+    const checkNested = (obj, level,  ...rest)  => {
+      if (obj === undefined) return false
+      if (rest.length == 0 && obj.hasOwnProperty(level)) return true
+      return checkNested(obj[level], ...rest)
+    }
+    const getNested = (obj, ...args) => {
+      return args.reduce((obj, level) => obj && obj[level], obj)
+    }
     if (checkNested(data, "quotes", "ETH", "price")) {
       const results = getNested(data, "quotes", "ETH", "price");
       setPrice(results.toFixed(2))
       console.log('results', results)
     }
-    // try{
-    //   const test = data.quotes
-    //   console.log(data.quotes)
-    // } catch (e) {
-    //   console.log('error in useEffect nesting', e)
-    // }
   }, [data])  
 
   const onSelect = (e) => {
-    console.log('onSelect', e.target.id)
-    console.log('onSelect', e.target.value)
-
     if(e.target.id === "left") setLeft(e.target.value);
     if(e.target.id === "right") setRight(e.target.value);
   }
@@ -59,12 +67,6 @@ const MainContainer = () => {
   <main>
     <Select id="left" options={coins} name="name" value="id" onSelect={onSelect} set="btc"/>
     <Select id="right" options={coins} name="name" value="id" onSelect={onSelect} set="eth"/>
-    {/* <select id="left" onChange={onSelect}>
-      <option value="Bitcoin">Bitcoin</option>
-    </select>
-    <select id="right" onChange={onSelect}>
-      <option value="Bitcoin">Ethereum</option>
-    </select> */}
     <h1>1 Bitcoin = {price} Ethereum</h1>
   </main>  );
 }
