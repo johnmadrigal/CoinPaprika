@@ -9,7 +9,8 @@ const MainContainer = () => {
   const [left, setLeft] = useState('btc-bitcoin');
   const [right, setRight] = useState('ETH');
   const [coins, setCoins] = useState([])
-
+  const [exchange, setExchange] = useState('')
+  const dictionary = ['BTC', 'ETH', 'USD', 'EUR', 'PLN']; 
   
   // const url = `https://api.coinpaprika.com/v1/tickers/${left}?quotes=${right}`
   const url = `https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=ETH`
@@ -27,7 +28,7 @@ const MainContainer = () => {
         const quote = responses[1].json()
         Promise.all([coins, quote])
           .then( bodies => {
-            const topFive = bodies[0].slice(0,5)
+            const topFive = bodies[0].filter( market => dictionary.includes(market.symbol))
             console.log('topfive', topFive)
             setCoins(topFive)
             setRate(bodies[1])
@@ -55,6 +56,7 @@ const MainContainer = () => {
     }
     if (checkNested(rate, "quotes", right, "price")) {
       const results = getNested(rate, "quotes", right, "price");
+      setExchange(`1 ${rate.name} = ${results} ${right}`)
       setPrice(results.toFixed(2))
       console.log('results', results)
     }
@@ -86,9 +88,11 @@ const MainContainer = () => {
 
   return loading ? <h1>Loading...</h1> : (
   <main>
+    <h1>Crypto Exchange Rates</h1>
     <Select id="left" options={coins} name="name" value="id" selected={left} onSelect={onSelect} set="btc-bitcoin"/>
     <Select id="right" options={coins} name="name" value="symbol" selected={right} onSelect={onSelect} set="Ethereum"/>
-    <h1>1 {left} = {price}{right}</h1>
+    {/* <h1>1 {left} = {price}{right}</h1> */}
+    <h4>{exchange}</h4>
   </main>  );
 }
  
