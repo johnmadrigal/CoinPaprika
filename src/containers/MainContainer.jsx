@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import SelectContainer from './SelectContainer';
 import '../styles/MainContainer.css'
 
-//most likely want to either cash these request or grab them on select
 const MainContainer = () => {
-  const [left, setLeft] = useState('btc-bitcoin');
-  const [right, setRight] = useState('eth-ethereum');
+  const [selects, setSelects] = useState(['btc-bitcoin', 'eth-ethereum'])
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true)
   const [exchange, setExchange] = useState('');
+
+  const [selectLeft, selectRight] = selects;
 
   useEffect( () => {
     console.log('trigger initial fetch')
@@ -38,8 +38,8 @@ const MainContainer = () => {
     console.log('useEffect for query')
     const query = async () => {
       try {
-        const queryLeft = fetch(`https://api.coinpaprika.com/v1/tickers/${left}`);
-        const queryRight = fetch(`https://api.coinpaprika.com/v1/tickers/${right}`);
+        const queryLeft = fetch(`https://api.coinpaprika.com/v1/tickers/${selectLeft}`);
+        const queryRight = fetch(`https://api.coinpaprika.com/v1/tickers/${selectRight}`);
         const coins = await Promise.all([queryLeft, queryRight]);
         const [newLeft, newRight] = await Promise.all(coins.map( coin => coin.json()));
         const conversion = newLeft.quotes.USD.price / newRight.quotes.USD.price;
@@ -49,18 +49,29 @@ const MainContainer = () => {
       }
     }
     query()
-  }, [left, right]);
+  }, [selects]);
 
   const onSelect = (e) => {
-    if(e.target.id === "left") setLeft(e.target.value);
-    if(e.target.id === "right") setRight(e.target.value);
+    if(e.target.id === "left") {
+      setSelects([e.target.value, selectRight])
+    }
+    if(e.target.id === "right") {
+      setSelects([selectLeft, e.target.value])
+    }
+  }
+
+  const onReverse = () => {
+    console.log('clicked')
+    setSelects([selectRight, selectLeft]);
   }
 
   return loading ? <h1>Loading...</h1> : (
   <main>
     <h1>Crypto Exchange</h1>
-    <SelectContainer coins={coins} left={left} right={right} onSelect={onSelect} />
+    <SelectContainer coins={coins} left={selectLeft} right={selectRight} onSelect={onSelect} />
+    <button onClick={onReverse} >Reverse</button>
     <h3>{exchange}</h3>
+    <h6>Powered by <a href='https://coinpaprika.com/'>CoinPaprika</a></h6>
   </main>  );
 }
 
