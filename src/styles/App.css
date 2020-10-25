@@ -1,0 +1,15 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  background-color: rgb(28, 28, 28);
+  height: 100vh;
+}
+
+h1 {
+  color: orange
+}
+
+h3 {
+  color: dodgerblue
+}

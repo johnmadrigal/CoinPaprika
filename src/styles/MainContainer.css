@@ -1,0 +1,7 @@
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 400px;
+  background-color: rgb(64, 64, 64);
+  align-items: center;
+}
