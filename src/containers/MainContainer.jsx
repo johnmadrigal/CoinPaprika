@@ -4,11 +4,11 @@ import Select from '../components/Select'
 //most likely want to either cash these request or grab them on select
 const MainContainer = () => {
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState({}) //{id: null, quotes: { ETH: {price: 0}}}
+  const [rate, setRate] = useState({}) //{id: null, quotes: { ETH: {price: 0}}}
   const [price, setPrice] = useState(null)
-  const [left, setLeft] = useState('');
-  const [right, setRight] = useState('');
-  const [coins, setCoins] = useState([{id: 'btc', name: 'Bitcoin'}, {id: 'eth', name: "Ethereum"}])
+  const [left, setLeft] = useState('btc-bitcoin');
+  const [right, setRight] = useState('ETH');
+  const [coins, setCoins] = useState([])
 
   
   // const url = `https://api.coinpaprika.com/v1/tickers/${left}?quotes=${right}`
@@ -27,8 +27,10 @@ const MainContainer = () => {
         const quote = responses[1].json()
         Promise.all([coins, quote])
           .then( bodies => {
-            const topFive = bodies[0].slice(0,6)
+            const topFive = bodies[0].slice(0,5)
+            console.log('topfive', topFive)
             setCoins(topFive)
+            setRate(bodies[1])
             console.log(bodies[1])
           })
       })
@@ -51,23 +53,42 @@ const MainContainer = () => {
     const getNested = (obj, ...args) => {
       return args.reduce((obj, level) => obj && obj[level], obj)
     }
-    if (checkNested(data, "quotes", "ETH", "price")) {
-      const results = getNested(data, "quotes", "ETH", "price");
+    if (checkNested(rate, "quotes", right, "price")) {
+      const results = getNested(rate, "quotes", right, "price");
       setPrice(results.toFixed(2))
       console.log('results', results)
     }
-  }, [data])  
+  }, [rate])
+  
+  useEffect( () => {
+    console.log('inside query useEffect')
+    console.log('left', left)
+    console.log('right', right)
+    const query = async () => {
+      try {
+        const quote = await fetch(`https://api.coinpaprika.com/v1/tickers/${left}?quotes=${right}`)
+        const rate = await quote.json()
+        console.log('rate', rate)
+        setRate(rate);
+
+      } catch (e) {
+        console.log('error fetching quote')
+      }
+    }
+    query()
+  }, [left, right])
 
   const onSelect = (e) => {
+    console.log(e.target.value)
     if(e.target.id === "left") setLeft(e.target.value);
     if(e.target.id === "right") setRight(e.target.value);
   }
 
   return loading ? <h1>Loading...</h1> : (
   <main>
-    <Select id="left" options={coins} name="name" value="id" onSelect={onSelect} set="btc"/>
-    <Select id="right" options={coins} name="name" value="id" onSelect={onSelect} set="eth"/>
-    <h1>1 Bitcoin = {price} Ethereum</h1>
+    <Select id="left" options={coins} name="name" value="id" selected={left} onSelect={onSelect} set="btc-bitcoin"/>
+    <Select id="right" options={coins} name="name" value="symbol" selected={right} onSelect={onSelect} set="Ethereum"/>
+    <h1>1 {left} = {price}{right}</h1>
   </main>  );
 }
  
