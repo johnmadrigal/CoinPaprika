@@ -10,7 +10,7 @@
 <ul>
 <li>reverse button to switch between coins
   <ul>
-    <li>since decimal place if fixed to 2, there are coins perceived rate of 1 = 0.00</li>
+    <li>since decimal place is fixed to 2, there are coins perceived rate of 1 = 0.00</li>
     <li>can be fixed by giving users a slider/field to change decimal places</li>
   </ul>
 </li>
