@@ -5,3 +5,32 @@ main {
   background-color: rgb(64, 64, 64);
   align-items: center;
 }
+h1 {
+  color: orange
+}
+
+h3 {
+  color: dodgerblue
+}
+
+h6 {
+  color: pink
+}
+
+a:visited {
+  color: red;
+}
+
+button {
+  background-color: rgb(68, 62, 62);
+  border: 1px solid rgb(202, 202, 202);
+  padding: 10px;
+  color: rgb(202, 202, 202);
+  outline: none;
+}
+
+button:hover {
+  background-color: rgb(87, 87, 87);
+  border-color:white;
+  color: white;
+}

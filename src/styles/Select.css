@@ -1,5 +1,14 @@
 select {
   flex: 1 1 150px; /* Stretching: */
   margin: 5px;
+  background-color: rgb(28, 28, 28);
+  font-family: inherit;
+  color: rgb(202, 202, 202);
+  border: 1px solid rgb(202, 202, 202);
+  outline: none;
+}
+
+select:hover {
+  color:white
 }
 

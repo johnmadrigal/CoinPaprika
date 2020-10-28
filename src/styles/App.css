@@ -6,29 +6,5 @@
   height: 100vh;
 }
 
-h1 {
-  color: orange
-}
 
-h3 {
-  color: dodgerblue
-}
 
-h6 {
-  color: pink
-}
-
-a:visited {
-  color: red;
-}
-
-button {
-  background-color: rgb(68, 62, 62);
-  border: 1px solid white;
-  padding: 10px;
-  color: white;
-}
-
-button:hover {
-  background-color: rgb(87, 87, 87);
-}
