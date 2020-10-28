@@ -3,7 +3,7 @@ import SelectContainer from './SelectContainer';
 import '../styles/MainContainer.css'
 import Loading from '../components/Loading';
 
-const DECIMAL_PLACES = 3
+const DECIMAL_PLACES = 2;
 
 const MainContainer = () => {
   const [selects, setSelects] = useState(['btc-bitcoin', 'eth-ethereum'])
