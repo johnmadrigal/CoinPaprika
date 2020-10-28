@@ -1,4 +1,4 @@
-<h1>React App to Compare Exchange Rates between Cryptocurrency via CoinPaprika API</h1>
+<h1>React App to Compare Exchange Rates between Cryptocurrencies via CoinPaprika API</h1>
 
 <h3>Start</h3>
 <p>npm start</p>
@@ -12,7 +12,7 @@
   <ul>
     <li>since decimal place if fixed to 2, there are coins perceived rate of 1 = 0.00</li>
     <li>can be fixed by giving users a slider/field to change decimal places</li>
-  <ul>
+  </ul>
 </li>
 </ul>
 
