@@ -1,4 +1,4 @@
-<h1>Coin vs. Coin with CoinPaprika</h1>
+<h1>Crypto Compare with CoinPaprika</h1>
 
 <h3>Start</h3>
 <p>npm start</p>
