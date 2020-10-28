@@ -12,7 +12,11 @@
   - can be fixed by giving users a slider/field to change decimal places
 
 <h3>Future Optimizations:</h3>
-- cache previously queried coins to reduce API request
-  - chose to not implement to create up-to-minute snapshot of exchange 
-- debounce on reverse button to reduce API calls
-  - would be a non-issue if cache is implemented
+<ul>
+<li>- cache previously queried coins to reduce API request</li>
+  <ul>
+  <li>- chose to not implement to create up-to-minute snapshot of exchange </li>
+  <li>- debounce on reverse button to reduce API calls</li>
+  <ul>
+<li>- would be a non-issue if cache is implemented</li>
+</ul>
