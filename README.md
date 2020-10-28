@@ -7,9 +7,14 @@
 <p>npm test</p>
 
 <h3>Added Feature:</h3>
-- reverse button to switch between coins
-  - since decimal place if fixed to 2, there are coins perceived rate of 1 = 0.00
-  - can be fixed by giving users a slider/field to change decimal places
+<ul>
+<li>reverse button to switch between coins
+  <ul>
+    <li>since decimal place if fixed to 2, there are coins perceived rate of 1 = 0.00</li>
+    <li>can be fixed by giving users a slider/field to change decimal places</li>
+  <ul>
+</li>
+</ul>
 
 <h3>Future Optimizations:</h3>
 <ul>
