@@ -13,10 +13,13 @@
 
 <h3>Future Optimizations:</h3>
 <ul>
-<li>- cache previously queried coins to reduce API request</li>
+<li>cache previously queried coins to reduce API request
   <ul>
-  <li>- chose to not implement to create up-to-minute snapshot of exchange </li>
-  <li>- debounce on reverse button to reduce API calls</li>
-  <ul>
-<li>- would be a non-issue if cache is implemented</li>
+  <li>chose to not implement to create up-to-minute snapshot of exchange </li>
+  </ul>
+</li>
+<li>debounce on reverse button to reduce API calls
+  <ul></li>would be a non-issue if cache is implemented</li>
+  </ul>
+</li>  
 </ul>
